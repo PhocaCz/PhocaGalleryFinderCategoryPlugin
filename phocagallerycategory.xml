@@ -2,7 +2,7 @@
 <extension type="plugin" group="finder" method="upgrade" version="3">
 	<name>plg_finder_phocagallerycategory</name>
 	<author>Jan Pavelka (www.phoca.cz)</author>
-	<creationDate>27/01/2019</creationDate>
+	<creationDate>04/02/2019</creationDate>
 	<authorEmail></authorEmail>
 	<authorUrl>https://www.phoca.cz</authorUrl>
 	<copyright>Jan Pavelka</copyright>
@@ -13,7 +13,6 @@
 
 	<files>
 		<filename plugin="phocagallerycategory">index.html</filename>
-		<filename plugin="phocagallerycategory">manifest.xml</filename>
 		<filename plugin="phocagallerycategory">phocagallerycategory.php</filename>
 	</files>
 
@@ -32,6 +31,6 @@
 	
 
 	<updateservers>
-		<server type="extension" name="PLG_FINDER_PHOCAGALLERYCATEGORY"><![CDATA[https://raw.githubusercontent.com/PhocaCz/PhocaGalleryFinderCategoryPlugin/master/manifest.xml]]></server>
+		<server type="extension" name="PLG_FINDER_PHOCAGALLERYCATEGORY" priority="1"><![CDATA[https://raw.githubusercontent.com/PhocaCz/PhocaGalleryFinderCategoryPlugin/master/manifest.xml]]></server>
 	</updateservers>
 </extension>
