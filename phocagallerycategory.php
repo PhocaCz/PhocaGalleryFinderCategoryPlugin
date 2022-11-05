@@ -7,12 +7,15 @@
  * @license http://www.gnu.org/copyleft/gpl.html GNU/GPL
  */
 
+use Joomla\CMS\Component\ComponentHelper;
+use Joomla\Database\DatabaseQuery;
+
 defined('JPATH_BASE') or die;
 require_once JPATH_ADMINISTRATOR . '/components/com_finder/helpers/indexer/adapter.php';
 class plgFinderPhocagallerycategory extends FinderIndexerAdapter
 {
 
-	protected $context 		= 'Phocagallerycategory';
+	protected $context 		= 'PhocagalleryCategory';
 	protected $extension 	= 'com_phocagallery';
 	protected $layout 		= 'category';
 	protected $type_title 	= 'Phoca Gallery Category';
@@ -121,16 +124,39 @@ class plgFinderPhocagallerycategory extends FinderIndexerAdapter
 
 	}
 
+
 	protected function index(FinderIndexerResult $item, $format = 'html')
 	{
+
+
 		// Check if the extension is enabled
 		if (JComponentHelper::isEnabled($this->extension) == false)
 		{
 			return;
 		}
 
+
+       /* if (!JComponentHelper::isEnabled('com_phocagallery', true)) {
+            echo '<div class="alert alert-danger">Phoca Gallery Error: Phoca Gallery component is not installed or not published on your system</div>';
+            return;
+        }
+
+        if (!class_exists('PhocaGalleryLoader')) {
+            require_once( JPATH_ADMINISTRATOR.'/components/com_phocagallery/libraries/loader.php');
+        }
+
+        phocagalleryimport('phocagallery.path.path');
+        phocagalleryimport('phocagallery.path.route');
+        phocagalleryimport('phocagallery.library.library');
+        phocagalleryimport('phocagallery.text.text');
+        phocagalleryimport('phocagallery.access.access');
+        phocagalleryimport('phocagallery.file.file');
+        phocagalleryimport('phocagallery.file.filethumbnail');*/
+
+
+
 		$item->setLanguage();
-		
+
 		// Initialize the item parameters.
 		$registry = new JRegistry;
 		$registry->loadString($item->params);
@@ -139,12 +165,12 @@ class plgFinderPhocagallerycategory extends FinderIndexerAdapter
 		$registry = new JRegistry;
 		$registry->loadString($item->metadata);
 		$item->metadata = $registry;
-		
+
 
 		// Build the necessary route and path information.
 		$item->url = $this->getURL($item->id, $this->extension, $this->layout);
 		$item->route = PhocaGalleryRoute::getCategoryRoute($item->id, $item->alias);
-		$item->path = FinderIndexerHelper::getContentPath($item->route);
+		//$item->path = FinderIndexerHelper::getContentPath($item->route);
 
 		/*
 		 * Add the meta-data processing instructions based on the newsfeeds
@@ -165,7 +191,9 @@ class plgFinderPhocagallerycategory extends FinderIndexerAdapter
 		$item->addTaxonomy('Type', 'Phoca Gallery Category');
 
 		// Add the category taxonomy data.
-		$item->addTaxonomy('Category', $item->category, $item->cat_state, $item->cat_access);
+		if (isset($item->category) && $item->category != '') {
+            $item->addTaxonomy('Category', $item->category, $item->cat_state, $item->cat_access);
+        }
 
 		// Add the language taxonomy data.
 		$item->addTaxonomy('Language', $item->language);
@@ -182,12 +210,12 @@ class plgFinderPhocagallerycategory extends FinderIndexerAdapter
 		require_once JPATH_SITE . '/administrator/components/com_phocagallery/libraries/phocagallery/path/route.php';
 		return true;
 	}
-	
+
 	protected function getListQuery($query = null)
-	{	
+	{
 		$db = JFactory::getDbo();
 		// Check if we can use the supplied SQL query.
-		$query = $query instanceof JDatabaseQuery ? $query : $db->getQuery(true)			
+		$query = $query instanceof JDatabaseQuery ? $query : $db->getQuery(true)
 			->select('a.id, a.parent_id as catid, a.title, a.alias, "" AS link, a.description AS summary')
 			->select('a.metakey, a.metadesc, a.metadata, a.language, a.access, a.ordering')
 			->select('"" AS created_by_alias, "" AS modified, "" AS modified_by')
@@ -217,7 +245,7 @@ class plgFinderPhocagallerycategory extends FinderIndexerAdapter
 			->from('#__phocagallery_categories AS a')
 			->join('LEFT', '#__phocagallery_categories AS c ON c.id = a.parent_id');
 			//->where('a.approved = 1');
-			
+
 		return $query;
 	}
 
@@ -229,7 +257,7 @@ class plgFinderPhocagallerycategory extends FinderIndexerAdapter
 
 		return $sql;
 	}
-	
+
 		protected function getStateQuery()
 	{
 		$query = $this->db->getQuery(true);
@@ -248,6 +276,6 @@ class plgFinderPhocagallerycategory extends FinderIndexerAdapter
 
 		return $query;
 	}
-	
+
 
 }
