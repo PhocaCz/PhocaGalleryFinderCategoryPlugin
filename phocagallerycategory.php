@@ -8,11 +8,17 @@
  */
 
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Factory;
+use Joomla\Component\Finder\Administrator\Indexer\Adapter;
+use Joomla\Component\Finder\Administrator\Indexer\Indexer;
 use Joomla\Database\DatabaseQuery;
+use Joomla\Registry\Registry;
+use Joomla\Component\Finder\Administrator\Indexer\Helper;
 
 defined('JPATH_BASE') or die;
 require_once JPATH_ADMINISTRATOR . '/components/com_finder/helpers/indexer/adapter.php';
-class plgFinderPhocagallerycategory extends FinderIndexerAdapter
+
+class PlgFinderPhocagalleryCategory extends Adapter
 {
 
 	protected $context 		= 'PhocagalleryCategory';
@@ -52,7 +58,6 @@ class plgFinderPhocagallerycategory extends FinderIndexerAdapter
 		// Remove the items.
 		return $this->remove($id);
 	}
-
 
 	public function onFinderAfterSave($context, $row, $isNew)
 	{
@@ -124,13 +129,10 @@ class plgFinderPhocagallerycategory extends FinderIndexerAdapter
 
 	}
 
-
-	protected function index(FinderIndexerResult $item, $format = 'html')
+	protected function index(Joomla\Component\Finder\Administrator\Indexer\Result $item, $format = 'html')
 	{
-
-
 		// Check if the extension is enabled
-		if (JComponentHelper::isEnabled($this->extension) == false)
+		if (ComponentHelper::isEnabled($this->extension) == false)
 		{
 			return;
 		}
@@ -158,14 +160,16 @@ class plgFinderPhocagallerycategory extends FinderIndexerAdapter
 		$item->setLanguage();
 
 		// Initialize the item parameters.
-		$registry = new JRegistry;
-		$registry->loadString($item->params);
-		$item->params = $registry;
-
-		$registry = new JRegistry;
-		$registry->loadString($item->metadata);
-		$item->metadata = $registry;
-
+        if (!empty($item->params)) {
+            $registry = new Registry;
+            $registry->loadString($item->params);
+            $item->params = $registry;
+        }
+        if (!empty($item->metadata)) {
+            $registry = new Registry;
+            $registry->loadString($item->metadata);
+            $item->metadata = $registry;
+        }
 
 		// Build the necessary route and path information.
 		$item->url = $this->getURL($item->id, $this->extension, $this->layout);
@@ -177,15 +181,17 @@ class plgFinderPhocagallerycategory extends FinderIndexerAdapter
 		 * configuration parameters.
 		 */
 		// Add the meta-author.
-		$item->metaauthor = $item->metadata->get('author');
+        if (!empty($item->metadata)) {
+             $item->metaauthor = $item->metadata->get('author');
+        }
 
 		// Handle the link to the meta-data.
-		$item->addInstruction(FinderIndexer::META_CONTEXT, 'link');
-		$item->addInstruction(FinderIndexer::META_CONTEXT, 'metakey');
-		$item->addInstruction(FinderIndexer::META_CONTEXT, 'metadesc');
-		$item->addInstruction(FinderIndexer::META_CONTEXT, 'metaauthor');
-		$item->addInstruction(FinderIndexer::META_CONTEXT, 'author');
-		$item->addInstruction(FinderIndexer::META_CONTEXT, 'created_by_alias');
+		$item->addInstruction(Indexer::META_CONTEXT, 'link');
+		$item->addInstruction(Indexer::META_CONTEXT, 'metakey');
+		$item->addInstruction(Indexer::META_CONTEXT, 'metadesc');
+		$item->addInstruction(Indexer::META_CONTEXT, 'metaauthor');
+		$item->addInstruction(Indexer::META_CONTEXT, 'author');
+		$item->addInstruction(Indexer::META_CONTEXT, 'created_by_alias');
 
 		// Add the type taxonomy data.
 		$item->addTaxonomy('Type', 'Phoca Gallery Category');
@@ -199,7 +205,7 @@ class plgFinderPhocagallerycategory extends FinderIndexerAdapter
 		$item->addTaxonomy('Language', $item->language);
 
 		// Get content extras.
-		FinderIndexerHelper::getContentExtras($item);
+		Helper::getContentExtras($item);
 
 		// Index the item.
 		$this->indexer->index($item);
@@ -213,9 +219,9 @@ class plgFinderPhocagallerycategory extends FinderIndexerAdapter
 
 	protected function getListQuery($query = null)
 	{
-		$db = JFactory::getDbo();
+		$db = Factory::getDbo();
 		// Check if we can use the supplied SQL query.
-		$query = $query instanceof JDatabaseQuery ? $query : $db->getQuery(true)
+		$query = $query instanceof DatabaseQuery ? $query : $db->getQuery(true)
 			->select('a.id, a.parent_id as catid, a.title, a.alias, "" AS link, a.description AS summary')
 			->select('a.metakey, a.metadesc, a.metadata, a.language, a.access, a.ordering')
 			->select('"" AS created_by_alias, "" AS modified, "" AS modified_by')
@@ -245,7 +251,6 @@ class plgFinderPhocagallerycategory extends FinderIndexerAdapter
 			->from('#__phocagallery_categories AS a')
 			->join('LEFT', '#__phocagallery_categories AS c ON c.id = a.parent_id');
 			//->where('a.approved = 1');
-
 		return $query;
 	}
 
@@ -258,7 +263,7 @@ class plgFinderPhocagallerycategory extends FinderIndexerAdapter
 		return $sql;
 	}
 
-		protected function getStateQuery()
+	protected function getStateQuery()
 	{
 		$query = $this->db->getQuery(true);
 
@@ -276,6 +281,4 @@ class plgFinderPhocagallerycategory extends FinderIndexerAdapter
 
 		return $query;
 	}
-
-
 }
