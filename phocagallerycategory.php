@@ -16,7 +16,7 @@ use Joomla\Registry\Registry;
 use Joomla\Component\Finder\Administrator\Indexer\Helper;
 
 defined('JPATH_BASE') or die;
-require_once JPATH_ADMINISTRATOR . '/components/com_finder/helpers/indexer/adapter.php';
+//require_once JPATH_ADMINISTRATOR . '/components/com_finder/helpers/indexer/adapter.php';
 
 class PlgFinderPhocagalleryCategory extends Adapter
 {
@@ -233,7 +233,8 @@ class PlgFinderPhocagalleryCategory extends Adapter
 		$case_when_item_alias = ' CASE WHEN ';
 		$case_when_item_alias .= $query->charLength('a.alias', '!=', '0');
 		$case_when_item_alias .= ' THEN ';
-		$a_id = $query->castAsChar('a.id');
+		//$a_id = $query->castAsChar('a.id');
+		$a_id = $query->castAs('CHAR', 'a.id');
 		$case_when_item_alias .= $query->concatenate(array($a_id, 'a.alias'), ':');
 		$case_when_item_alias .= ' ELSE ';
 		$case_when_item_alias .= $a_id.' END as slug';
@@ -242,7 +243,8 @@ class PlgFinderPhocagalleryCategory extends Adapter
 		$case_when_category_alias = ' CASE WHEN ';
 		$case_when_category_alias .= $query->charLength('c.alias', '!=', '0');
 		$case_when_category_alias .= ' THEN ';
-		$c_id = $query->castAsChar('c.id');
+		//$c_id = $query->castAsChar('c.id');
+		$c_id = $query->castAs('CHAR', 'c.id');
 		$case_when_category_alias .= $query->concatenate(array($c_id, 'c.alias'), ':');
 		$case_when_category_alias .= ' ELSE ';
 		$case_when_category_alias .= $c_id.' END as catslug';
