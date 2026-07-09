@@ -2,18 +2,20 @@
 <extension type="plugin" group="finder" method="upgrade" version="6.0">
 	<name>plg_finder_phocagallerycategory</name>
 	<author>Jan Pavelka (www.phoca.cz)</author>
-	<creationDate>21/05/2026</creationDate>
+	<creationDate>09/07/2026</creationDate>
 	<authorEmail></authorEmail>
 	<authorUrl>https://www.phoca.cz</authorUrl>
 	<copyright>Jan Pavelka</copyright>
 	<license>GNU/GPL</license>
-	<version>6.1.0</version>
+	<version>6.1.1</version>
 	<description>PLG_FINDER_PHOCAGALLERYCATEGORY_DESCRIPTION</description>
 	<projectName>PhocaGalleryFinderCategoryPlugin</projectName>
 
 	<files>
+		<filename plugin="phocagallerycategory">FOSS.md</filename>
 		<filename plugin="phocagallerycategory">phocagallerycategory.php</filename>
 		<filename plugin="phocagallerycategory">index.html</filename>
+		<filename plugin="phocagallerycategory">LICENSE</filename>
 		<filename plugin="phocagallerycategory">manifest.xml</filename>
 	</files>
 

@@ -67,19 +67,19 @@
 		<element>phocagallerycategory</element>
 		<folder>finder</folder>
 		<type>plugin</type>
-		<version>6.1.0</version>
-		<infourl title="Phoca Gallery Finder Category Plugin 6.1.0">https://www.phoca.cz/</infourl>
+		<version>6.1.1</version>
+		<infourl title="Phoca Gallery Finder Category Plugin 6.1.1">https://www.phoca.cz/</infourl>
 		<downloads>
-			<downloadurl type="full" format="zip">https://github.com/PhocaCz/PhocaGalleryFinderCategoryPlugin/releases/download/6.1.0/plg_finder_phocagallerycategory_v6.1.0.zip</downloadurl>
+			<downloadurl type="full" format="zip">https://github.com/PhocaCz/PhocaGalleryFinderCategoryPlugin/releases/download/6.1.1/plg_finder_phocagallerycategory_v6.1.1.zip</downloadurl>
 		</downloads>
-		<sha512>ff3e495656f1716b3b7c51ad1adb72b0e843f5d6422df5a1dd8e6fd08c5b0e0fbc2b887df97b84b8c771253865a58497c1ef3a2f1daa77dbcd868c66f2debf91</sha512>
+		<sha512>4204a83423e3e0059d15399e4a49acdf0116b32537d8f467db927fa186c98ad83e63c909f9eb86e1232177202ae0a321b80bc2f929d9602d0c24812004a44063</sha512>
 		<tags>
 			<tag>stable</tag>
 		</tags>
 		<maintainer><![CDATA[ Phoca.cz ]]></maintainer>
 		<maintainerurl>https://www.phoca.cz/</maintainerurl>
 		<section>Updates</section>
-		<targetplatform name="joomla" version="6\.*"/>
+		<targetplatform name="joomla" version="(5|6)\.*"/>
 		<client>site</client>
 	</update>
 </updates>
